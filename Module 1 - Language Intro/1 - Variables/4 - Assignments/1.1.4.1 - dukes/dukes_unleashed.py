@@ -13,7 +13,19 @@ Note: this problem does not require the "compounding interest" formula from the 
 """
 
 ### Your code here ###
+import math
+#define the tuition costs for in-state and out-of-state students
+in_state_tuition = 30792
+out_state_tuition = 47882
+#calculate the amount of money needed to generate the tuition costs at a 5% return
+in_state_gift = in_state_tuition / 0.05
+out_state_gift = out_state_tuition / 0.05
+#output the results
+print("In-state gift needed: $", in_state_gift)
+print("Out-of-state gift needed: $", out_state_gift)
 
-in_state_gift = 0
 
-out_state_gift = 0
+
+in_state_gift = 615840.0
+
+out_state_gift = 957640.0

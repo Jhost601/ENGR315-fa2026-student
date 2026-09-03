@@ -15,9 +15,9 @@ Note that Elon's capital will be $33B.
 ### all your code below ###
 import math
 #define variables for the investment
-K = 33000000000  # Elon's capital in USD
-R_10 = 0.0396  # 10-year bond rate
-R_20 = 0.0432  # 20-year bond rate
+K = 33_000_000_000  # Elon's capital in USD
+R_10 = 3.96  # 10-year bond rate
+R_20 = 4.32  # 20-year bond rate
 N_10 = 10  # 10-year period
 N_20 = 20  # 20-year period
 grwth_factor_10 = 1 + (R_10 / 100)  # growth factor for 10-year bond
@@ -26,9 +26,9 @@ grwth_factor_20 = 1 + (R_20 / 100)  # growth factor for 20-year bond
 ten_year_final = K * (grwth_factor_10 ** N_10)
 twenty_year_final = K * (grwth_factor_20 ** N_20)
 #printing the final results
-print(f"Elon's investment after 10 years: ${ten_year_final:,.2f}")
-print(f"Elon's investment after 20 years: ${twenty_year_final:,.2f}")
+print(f"${ten_year_final}")
+print(f"${twenty_year_final}")
 # final answer for 10-year
-ten_year_final = 33,130,913,117.84
+ten_year_final = 48660509081.78675
 # final answer for 20-year
-twenty_year_final = 33,286,293,171.04
+twenty_year_final =76889229275.98897

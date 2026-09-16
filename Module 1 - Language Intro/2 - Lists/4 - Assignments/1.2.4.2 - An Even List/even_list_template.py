@@ -1,5 +1,5 @@
 import random
-
+import math
 """
 THIS SECTION IS DR. FORSYTH'S CODE. DO NOT MODIFY. BUT KEEP READING.
 """
@@ -19,10 +19,15 @@ print("Your list is: ", even_list)
 """
 YOUR CODE BEGINS BELOW HERE. FILL IN THE MISSING OPERATIONS / CODE
 """
-
-
+even_list.sort() #sorts list in order 
+n = len(even_list) #finds the length of the list
+number_index1 = n // 2 - 1 #finds the index of the first middle number value
+number_index2 = n // 2 #findss the inex of the second 
+#prints middle numbers for check
+print(even_list[number_index1])
+print(even_list[number_index2])
 # this is the final result. Modify this line, and the empty lines above, to solve the assignment
-middle_average = None
+middle_average = (even_list[number_index1] + even_list[number_index2]) / 2
 
 # the average of middle elements is
 print("The average is: ", middle_average)

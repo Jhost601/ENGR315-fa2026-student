@@ -28,13 +28,15 @@ nums = generate_random_int_list(max_length, upper_bound)
 num_evens = 0
 num_odds = 0
 
-print(nums)
+print(nums) #for testing 
 ### YOUR CODE BEGINS HERE ###
-n = len(nums)
-for n in nums:
-    if n % 2 == 0:
+n = len(nums) #find the length of the list
+#count the number of even and odd numbers in the list
+for i in range(n):
+    if nums[i] % 2 == 0:
         num_evens += 1
     else:
         num_odds += 1
+#checking the number of even numbers in the list
 print(num_evens)
 print(num_odds)

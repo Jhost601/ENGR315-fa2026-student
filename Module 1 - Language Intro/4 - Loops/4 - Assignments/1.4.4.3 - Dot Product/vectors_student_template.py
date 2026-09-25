@@ -29,6 +29,10 @@ dot_product = 0
 
 ### Your code here
 
+for i in range(len(vector_a)): # iterates the length of the first vector 
+    dot_product += vector_a[i] * vector_b[i] # calculation for the dot product of both vectors
+
+
 """
 Step 3: Calculate the error of your dot_product compared with numpy's solution
 """

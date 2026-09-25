@@ -16,7 +16,8 @@ list_average = -1
 
 
 # First Loop Here:
-
+for number in list_one:
+    if list_max == -1 
 
 # Second Loop Here:
 

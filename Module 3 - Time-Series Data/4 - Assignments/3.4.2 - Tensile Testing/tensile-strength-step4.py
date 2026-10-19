@@ -62,7 +62,14 @@ def calculate_stress(force, sample_diameter):
 
     ### YOUR SOLUTION FROM STEP 1 TEMPLATE HERE ###
 
-    return None
+    # Calculate cross-sectional area (mm^2)
+    c_s_area = np.pi * (sample_diameter / 2)**2
+
+    # Calculate stress (MPa)
+    stress = (force * 1000) / c_s_area
+
+    return stress
+
 
 
 def calculate_max_strength_strain(strain, stress):
@@ -76,8 +83,13 @@ def calculate_max_strength_strain(strain, stress):
     """
 
     ### YOUR SOLUTION FROM STEP 2 TEMPLATE HERE ###
+    # calculate the maximum stress experienced
+    ultimate_tensile_stress = np.max(stress)
+    
+    # calculate the maximum strain experienced
+    fracture_strain = np.max(strain)
 
-    return -1, -1
+    return ultimate_tensile_stress, fracture_strain
 
 def calculate_elastic_modulus(strain, stress):
     """
@@ -98,6 +110,23 @@ def calculate_elastic_modulus(strain, stress):
 
     ### YOUR SOLUTION FROM STEP 3 TEMPLATE HERE ###
 
+    # Calculate ultimate tensile stress
+    ultimate_tensile_stress = np.max(stress)
+
+    # Find 40% of maximum stress
+    secant_stress = 0.4 * ultimate_tensile_stress
+
+    # Find the closest stress value to 40%
+    diffs = np.abs(stress - secant_stress)
+    linear_index = np.argmin(diffs)
+
+    # Select the linear region
+    linear_stress = stress[:linear_index]
+    linear_strain = strain[:linear_index]
+
+    # Calculate slope and intercept
+    slope, intercept = np.polyfit(linear_strain, linear_stress, 1)
+
     return linear_index, slope, intercept
 
 def calculate_percent_offset(slope, strain, stress):
@@ -115,14 +144,14 @@ def calculate_percent_offset(slope, strain, stress):
     offset = 0.002
 
     # calculate the offset line: y=m(x-0.002) + 0
-    offset_line = None
+    offset_line = slope * (strain - offset) + 0
 
     # measure distance from all points on graph to this line. Consider using the
     # abs() method to ensure values are positive
-    distance = None
+    distance = np.abs(stress - offset_line)
 
     # use argmin to find the index where the distance is minimal
-    intercept_index = -1
+    intercept_index = np.argmin(distance)
 
     return offset_line, intercept_index
 
@@ -130,10 +159,10 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
     # modify this line to select different materials/folders within tensile/
-    material_folder = "1045CR"
+    material_folder = "2024"
 
     # modify this line to select different samples in the material folder
-    sample_name = "C01A1045CR_1"
+    sample_name = "C01A2024_1"
 
 
     ### Do not modify below this line ###

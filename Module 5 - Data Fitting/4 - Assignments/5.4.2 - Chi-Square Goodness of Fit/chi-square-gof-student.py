@@ -29,6 +29,9 @@ def categorical_test(_observed, _expected, _alpha):
     reject = None
 
     # YOUR CODE HERE #
+    # Use chisquare() to calculate the chi-square statistic and p-value, then determine if the null hypothesis should be rejected
+    chi_stat, p_value = chisquare(f_obs=_observed, f_exp=_expected)
+    reject = p_value < _alpha
 
     return chi_stat, p_value, reject
 
@@ -47,6 +50,12 @@ def expected_normal_counts(_bins, _mu, _std, _num_samples):
     expected_counts = None
 
     # YOUR CODE HERE #
+    # Calculate the expected counts for each bin using the normal CDF and the total number of samples
+    cdf_values = norm.cdf(_bins, loc=_mu, scale=_std)
+    # caculate the probability of each bin by taking the difference of the CDF values
+    prob = np.diff(cdf_values)
+    # calculate the expected counts by multiplying the probabilities by the total number of samples
+    expected_counts = prob * _num_samples
 
     return expected_counts
 
@@ -70,6 +79,22 @@ def normal_fit_test(_samples, _alpha):
     reject = None
 
     # YOUR CODE HERE #
+    # Step 1: Fit the samples to a normal distribution
+    mu, std = norm.fit(_samples)
+
+    # Step 2: Create bins
+    bins = np.r_[-np.inf, np.linspace(mu - 2 * std, mu + 2 * std, 9), np.inf]
+
+    # Step 3: Bin the samples to get observed counts
+    observed_counts, _ = np.histogram(_samples, bins=bins)
+
+    # Step 4: Get expected counts
+    expected_counts = expected_normal_counts(bins, mu, std, len(_samples))
+
+    # Step 5: Run chisquare test with ddof=2
+    chi_stat, p_value = chisquare(f_obs=observed_counts, f_exp=expected_counts, ddof=2)
+    reject = p_value < _alpha
+
 
     return chi_stat, p_value, reject
 

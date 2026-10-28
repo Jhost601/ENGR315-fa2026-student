@@ -26,8 +26,10 @@ def load_tensile_data(_path: str):
     """
 
     # YOUR CODE HERE #
+    # Use pd.read_csv() to load the file and return the DataFrame
+    df = pd.read_csv(_path)
 
-    return None
+    return df
 
 
 def select_material(_df, _material: str):
@@ -39,8 +41,10 @@ def select_material(_df, _material: str):
     """
 
     # YOUR CODE HERE #
+    # Select the rows for the material and return the DataFrame
+    df_material = _df[_df['Material_Type'] == _material]
 
-    return None
+    return df_material 
 
 
 def select_strong(_df, _material: str, _min_yield: float):
@@ -54,8 +58,10 @@ def select_strong(_df, _material: str, _min_yield: float):
     """
 
     # YOUR CODE HERE #
+    # Select the rows for the material and yield strength above the minimum
+    df_yield = _df[(_df['Material_Type'] == _material) & (_df['Yield_Strength'] > _min_yield)]
 
-    return None
+    return df_yield
 
 
 def get_values(_df, _material: str, _column: str):
@@ -68,8 +74,10 @@ def get_values(_df, _material: str, _column: str):
     """
 
     # YOUR CODE HERE #
-
-    return None
+    # Select the rows for the material and the column, then convert to a Numpy array
+    df_array = _df[_df['Material_Type'] == _material][_column].to_numpy()
+    
+    return df_array
 
 
 def material_statistics(_df, _material: str, _column: str):
@@ -83,8 +91,11 @@ def material_statistics(_df, _material: str, _column: str):
     """
 
     # YOUR CODE HERE #
+    # Select the rows for the material and the column, then calculate mean and std
+    df_material = _df[_df['Material_Type'] == _material][_column]
+    stats = (df_material.mean(), df_material.std())
 
-    return None
+    return stats
 
 
 def summary_table(_df, _columns: list):
@@ -99,8 +110,14 @@ def summary_table(_df, _columns: list):
     """
 
     # YOUR CODE HERE #
+    # Create a dictionary of dictionaries to hold the results
+    data_dict = {}
+    for material in _df['Material_Type'].unique():
+        data_dict[material] = {}
+        for column in _columns:
+            data_dict[material][column] = material_statistics(_df, material, column)
 
-    return None
+    return data_dict
 
 
 if __name__ == '__main__':

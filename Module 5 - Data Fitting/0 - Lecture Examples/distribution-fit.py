@@ -118,7 +118,7 @@ Part 3: Load up some data and fit it to a distribution
 """
 
 # load up the RSI data results with force plate and accelerometer results
-df = pd.read_csv('../../data/drop-jump/all_participant_data_rsi.csv')
+df = pd.read_csv('data\\drop-jump\\all_participant_data_rsi.csv')
 
 # pull out the force plate column
 force_plate_rsi = df['force_plate_rsi'].to_numpy()

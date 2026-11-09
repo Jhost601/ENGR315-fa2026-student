@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.signal import find_peaks
 from ekg_testbench import EKGTestBench
 
 def detect_heartbeats(filepath):
@@ -16,35 +17,42 @@ def detect_heartbeats(filepath):
 
     # load data in matrix from CSV file; skip first two rows
     ## your code here
-
+    data = np.loadtxt(path, delimiter=',', skiprows=2)
     # save each vector as own variable
     ## your code here
-
+    sample_indices = data[:, 0] # Assuming the sample indices are in the first column
     # identify one column to process. Call that column signal
 
-    signal = -1 ## your code here
+    signal = data[:, 1] # Assuming the signal is in the second column ## your code here
 
     # pass data through LOW PASS FILTER (OPTIONAL)
     ## your code here
-
+    low_passed_signal = signal # Replace with actual low pass filter implementation
     # pass data through HIGH PASS FILTER (OPTIONAL) to create BAND PASS result
     ## your code here
-
+    high_passed_signal = low_passed_signal # Replace with actual high pass filter implementation
     # pass data through differentiator
     ## your code here
-
+    differentiated_signal = np.gradient(high_passed_signal) # Replace with actual differentiation implementation
     # pass data through square function
     ## your code here
-
+    squared_signal = differentiated_signal ** 2
     # pass through moving average window
     ## your code here
+    window_size = 30
+    averaged_signal = np.convolve(squared_signal, np.ones(window_size) / window_size, mode='same')
 
+    
     # use find_peaks to identify peaks within averaged/filtered data
     # save the peaks result and return as part of testbench result
 
     ## your code here peaks,_ = find_peaks(....)
-
-    beats = None
+    # Determine threshold using the 90th percentile
+    threshold = np.percentile(averaged_signal, 90)
+    # Detect candidate heartbeat peaks
+    peaks, _ = find_peaks(averaged_signal, height=threshold, distance=72)
+    
+    beats = peaks  # Extract the indices of the detected peaks
 
     # do not modify this line
     return signal, beats

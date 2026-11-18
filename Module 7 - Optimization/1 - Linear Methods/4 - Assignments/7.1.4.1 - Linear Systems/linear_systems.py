@@ -22,7 +22,8 @@ def direct_solve(_A, _b):
     :return: length-n numpy array of solution values
     """
     # Hint: use np.linalg.solve() as in lecture.
-    currents = None
+    
+    currents = np.linalg.solve(_A, _b)
 
     # YOUR CODE HERE #
 
@@ -36,8 +37,12 @@ def verify_solution(_A, _b, _x):
              equal to A @ x and matches is a Python bool from np.allclose().
     """
     # Hint: use np.dot() and np.allclose() as in lecture.
-    calculated_b = None
-    matches = None
+     # Calculate b using A and x
+    calculated_b = np.dot(_A, _x)
+
+    # Check if calculated b matches original b
+    matches = bool(np.allclose(calculated_b, _b))
+
 
     # YOUR CODE HERE #
 
@@ -57,10 +62,38 @@ def jacobi_solve(_A, _b, _tolerance=0.001, _max_iterations=100):
              and converged is a Python bool.
     """
     # Hint: use np.diag(), np.dot(), a for loop, and an if statement.
-    x = None
-    iterations = None
-    converged = None
+    # Convert inputs to numpy arrays
+    A = np.array(_A, dtype=float)
+    b = np.array(_b, dtype=float)
 
+    # Start with an initial guess of zeros
+    x = np.zeros(len(b))
+
+    # Get the diagonal values
+    D = np.diag(A)
+
+    # Remove diagonal values from A
+    R = A - np.diag(D)
+
+    iterations = 0
+    converged = False
+     # Perform Jacobi iterations
+    for i in range(_max_iterations):
+
+        # Calculate new x values
+        x_new = (b - np.dot(R, x)) / D
+
+        # Count the iteration
+        iterations += 1
+
+        # Check for convergence
+        if np.max(np.abs(x_new - x)) < _tolerance:
+            converged = True
+            x = x_new
+            break
+
+        # Update x for the next iteration
+        x = x_new
     # YOUR CODE HERE #
 
     return x, iterations, converged
@@ -73,8 +106,8 @@ def scipy_iterative_solve(_A, _b, _rtol=1e-5):
              integer status from cg() (0 means successful convergence).
     """
     # Hint: cg(A, b, rtol=_rtol) returns two values.
-    x = None
-    info = None
+    # Solve using conjugate gradient method
+    x, info = cg(_A, _b, rtol=_rtol)
 
     # YOUR CODE HERE #
 

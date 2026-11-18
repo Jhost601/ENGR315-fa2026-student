@@ -25,10 +25,7 @@ def jacobian(dimensions):
     """Return a NumPy array of shape (2, 2) containing the Jacobian."""
     x, y = dimensions
 
-    J = np.array([
-        [2*x, 2*y],
-        [1, 1]
-    ])
+    J = np.array([ [2*x, 2*y], [1, 1] ])
     # TODO (20 points): implement the Jacobian matrix.
     return J
 
@@ -48,22 +45,21 @@ def newton_raphson(initial_guess, tolerance=1e-6, max_iterations=50):
         # Check if the solution has converged
         if np.max(np.abs(F)) < tolerance:
             return dimensions
-
+        
         # Calculate Jacobian
         J = jacobian(dimensions)
 
         # Solve for the change in dimensions
         delta = np.linalg.solve(J, -F)
-
+        
         # Update dimensions
         dimensions = dimensions + delta
-
     # Check convergence after the final update
     if np.max(np.abs(residuals(dimensions))) < tolerance:
-        return dimensions
+        return dimensions 
 
     # TODO (40 points): implement the iterative Newton-Raphson algorithm.
-    return RuntimeError("Newton-Raphson did not converge")
+    raise RuntimeError("Newton-Raphson did not converge")
 
 
 def solve_scipy(initial_guess):
@@ -72,9 +68,9 @@ def solve_scipy(initial_guess):
     Check solution.success. Raise RuntimeError if the solver fails.
     """
     solution = root(residuals, initial_guess, jac=jacobian)
-
     if not solution.success:
         raise RuntimeError("SciPy solver failed")
+    
     # TODO (20 points): use root() to solve the system.
     return solution.x
 
